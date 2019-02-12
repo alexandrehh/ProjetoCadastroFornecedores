@@ -1,0 +1,129 @@
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Neomind</title>	
+	
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-mask/1.8.7/mask.min.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+    <script src="./controller/fornecedor.js"></script>	
+	<link rel="stylesheet" type="text/css" href="./css/fornecedor.css">
+        
+    
+</head>
+
+<body ng-app="AppModule" ng-controller="AppControl">
+<header class="header">
+	<img class="logo" src="./img/logo.jpg" alt="Logo"> 
+		<a class="titulo" style="color: white;">Cadastro de Fornecedores</a>
+</header>
+<div>
+    <table class="table table-striped ">  
+		 
+        <tbody>
+            <thead class="tabela" style="color: white;">
+                <tr>
+                    <th width="80px">CODIGO</th>
+                    <th width="350px">NOME</th>
+                    <th width="350px">E-MAIL</th>
+                    <th width="350px">COMENTÁRIO</th>
+                    <th>CNPJ</th>
+                    <th width="200px"><button class="botao_modal" data-toggle="modal" data-target="#modalNovo" ng-click="limpaDados()">CADASTRO FORNECEDOR</button></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="fornecedor in fornecedores">
+                    <td width="80px">{{fornecedor.id}}</td>
+                    <td>{{fornecedor.name}}</td>
+                    <td>{{fornecedor.email}}</td>
+                    <td>{{fornecedor.comment}}</td>
+                    <td>{{fornecedor.cnpj}}</td>
+                    <td>
+                        <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modalEditar" ng-click="editar(fornecedor)">Editar</button>
+                        <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modalExcluir" ng-click="delete(fornecedor.id)">Excluir</button>
+                    </td>
+                </tr>
+
+            </tbody>
+        </tbody>
+    </table>
+</div>
+
+<!-- Modal novo -->
+<div class="modal fade" id="modalNovo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="novoModal">
+                <h4 class="novoCadastro" style="color: white;" id="exampleModalLabel">Novo Cadastro</h4>              
+            </div>
+            <div class="novoModalBody" style="color: white;">
+                <form name="novoForm">
+                    
+                    <div class="form-group">
+                        <label for="fornecedorName">NOME</label>
+                        <input type="text" maxlength="30" name="fornecedorName" ng-style="{border: !novoForm.fornecedorName.$valid ? '1px solid red' : none}" required class="form-control" id="fornecedorName" ng-model="novoFornecedor.name" placeholder="NOME">
+                    </div>
+                    <div class="form-group">
+                        <label for="fornecedorEmail">E-MAIL</label>
+                        <input type="email" maxlength="30" name="fornecedorEmail" ng-style="{border: !novoForm.fornecedorEmail.$valid ? '1px solid red' : none}" required class="form-control" id="fornecedorEmail" ng-model="novoFornecedor.email" placeholder="E-MAIL">
+                    </div>
+                    <div class="form-group">
+                        <label for="fornecedorComment">COMENTÁRIO</label>
+                        <input type="text" maxlength="50"class="form-control" id="fornecedorComment" ng-model="novoFornecedor.comment" placeholder="COMENTÁRIO">
+                    </div>
+                    <div class="form-group">
+                        <label for="fornecedorCnpj">CNPJ</label>
+                        <input type="text" ng-pattern="/^\d{2}.\d{3}.\d{3}\/\d{4}\-\d{2}$/" ui-mask="99.999.999/9999-99" name="fornecedorCnpj" ng-style="{border: !novoForm.fornecedorCnpj.$valid ? '1px solid red' : none}" required class="form-control" id="fornecedorCnpj" ng-model="novoFornecedor.cnpj">
+                    </div>
+                </form>
+            </div>
+            <div class="modalRodaPe">
+                <button type="button" data-dismiss="modal" class="btn btn-dark">Fechar</button>
+                <button type="button" ng-disabled="!novoForm.$valid" ng-click="inserir(false)" data-dismiss="modal" class="btn btn-primary">Salvar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal editar -->
+<div class="modal fade" id="modalEditar" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="novoModal">
+                <h4 class="novoCadastro" style="color: white;" >Editar Cadastro</h4>               
+            </div>
+            <div class="novoModalBody" style="color: white;">
+                <form name="editarForm">
+                    <div class="form-group">
+                        <label>CODIGO: {{fornecedor.id}}</label>
+                    </div>
+                    <div class="form-group">
+                        <label for="editarFornecedorName">NOME</label>
+                        <input type="text" maxlength="30"required name="editarFornecedorName" ng-style="{border: !editarForm.editarFornecedorName.$valid ? '1px solid red' : none}" class="form-control" id="editarFornecedorName" ng-model="fornecedor.name" placeholder="NOME">
+                    </div>
+                    <div class="form-group">
+                        <label for="editarFornecedorEmail">E-MAIL</label>
+                        <input type="email" maxlength="30" required name="editarFornecedorEmail" ng-style="{border: !editarForm.editarFornecedorEmail.$valid ? '1px solid red' : none}" class="form-control" id="editarFornecedorEmail" ng-model="fornecedor.email" placeholder="E-MAIL">
+                    </div>
+                    <div class="form-group">
+                        <label for="editarFornecedorComment">COMENTÁRIO</label>
+                        <input type="text" maxlength="50" class="form-control" id="editarFornecedorComment" ng-model="fornecedor.comment" placeholder="COMENTÁRIO">
+                    </div>
+                    <div class="form-group">
+                        <label for="editarfornecedorCnpj">CNPJ</label>
+                        <input type="text" ng-pattern="/^\d{2}.\d{3}.\d{3}\/\d{4}\-\d{2}$/" ui-mask="99.999.999/9999-99" required name="editarfornecedorCnpj" ng-style="{border: !editarForm.editarfornecedorCnpj.$valid ? '1px solid red' : none}" class="form-control" id="editarFornecedorCnpj" ng-model="fornecedor.cnpj">
+                    </div>
+                </form>
+            </div>
+            <div class="modalRodaPe">
+                <button type="button" class="btn btn-dark" data-dismiss="modal">Fechar</button>
+                <button type="button"  ng-disabled="!editarForm.$valid" ng-click="inserir(true)" data-dismiss="modal" class="btn btn-primary">Salvar</button>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,7 @@
+com\fornecedorcadastro\service\impl\FornecedorServiceImpl.class
+com\fornecedorcadastro\controller\HomeController.class
+com\fornecedorcadastro\repository\FornecedorRepository.class
+com\fornecedorcadastro\domain\FornecedorEntity.class
+com\fornecedorcadastro\FornecedorApplication.class
+com\fornecedorcadastro\controller\FornecedorController.class
+com\fornecedorcadastro\service\FornecedorService.class

@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Built-By: alex_
+Build-Jdk: 11.0.2
+Implementation-Title: ProjetoCadastroFornecedores
+Implementation-Version: 1.0
+Implementation-Vendor-Id: br.com.fornecedorcadastro
+Implementation-URL: https://projects.spring.io/spring-boot/#/spring-boot
+ -starter-parent/ProjetoCadastroFornecedores
+Created-By: Maven Integration for Eclipse
+
